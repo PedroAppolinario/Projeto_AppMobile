@@ -1,20 +1,20 @@
 package PedroAppolinario.com.github.ProjetoFaculdade.domains.entity;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.br.CPF;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
-import java.util.List;
+
 
 @Data
 @Entity
 @NoArgsConstructor
-@AllArgsConstructor
-@Table(name = "cliente")
-public class Cliente implements Serializable {
+@Table(name = "programador")
+public class Programer implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -23,36 +23,39 @@ public class Cliente implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "nome", length = 100)
-    @NotEmpty(message = "Campo nome é obrigatório!")
+    @Column(name = "nome")
+    @NotEmpty(message = "Campo nome é OBRIGATÓRIO!")
     private String nome;
 
-    @Column(name = "cpf")
-    @NotEmpty(message = "Campo CPF é obrigatório!")
-    @CPF(message = "CPF Inválido!")
+    @CPF(message = "Informe um CPF válido")
+    @Column(name = "cpf", length = 11)
     private String cpf;
 
-
-    @Column(unique = true, name = "email")
+    @Column(unique = true)
     private String email;
 
     @Column(name = "telefone")
     private String telefone;
 
+    @JsonIgnore
     @Column(name = "senha")
     private String senha;
 
-    @JsonIgnore
-    @OneToMany
-    private List<Servico> servicos;
+    public Programer(Integer id, String nome, String cpf, String email, String telefone, String senha) {
+        this.id = id;
+        this.nome = nome;
+        this.cpf = cpf;
+        this.email = email;
+        this.telefone = telefone;
+        this.senha = senha;
+    }
 
-    public Cliente(Integer id,String nome,String cpf, String email, String telefone) {
+    public Programer(Integer id, String nome, String cpf, String email, String telefone) {
         this.id = id;
         this.nome = nome;
         this.cpf = cpf;
         this.email = email;
         this.telefone = telefone;
     }
-
 
 }
