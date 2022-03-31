@@ -1,14 +1,12 @@
 package PedroAppolinario.com.github.ProjetoFaculdade.controller;
 
 import PedroAppolinario.com.github.ProjetoFaculdade.domains.entity.Cliente;
+import PedroAppolinario.com.github.ProjetoFaculdade.dto.ClienteDto;
 import PedroAppolinario.com.github.ProjetoFaculdade.repository.ClienteRepository;
 import PedroAppolinario.com.github.ProjetoFaculdade.service.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
@@ -33,5 +31,15 @@ public class ClienteController {
                 .buildAndExpand(cliente.getId()).toUri();
         return ResponseEntity.created(uri).build();
     }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<Void> updateCliente(@PathVariable Integer id, @Valid @RequestBody ClienteDto clienteDto ){
+        Cliente cliente = clienteService.fromDto(clienteDto);
+        cliente.setId(id);
+        clienteService.updateCliente(cliente);
+        return ResponseEntity.noContent().build();
+
+    }
+
 
 }

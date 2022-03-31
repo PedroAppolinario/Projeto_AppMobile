@@ -13,8 +13,8 @@ import java.io.Serializable;
 @Data
 @Entity
 @NoArgsConstructor
-@Table(name = "programador")
-public class Programer implements Serializable {
+@Table(name = "prestador")
+public class Prestador implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -41,7 +41,7 @@ public class Programer implements Serializable {
     @Column(name = "senha")
     private String senha;
 
-    public Programer(Integer id, String nome, String cpf, String email, String telefone, String senha) {
+    public Prestador(Integer id, String nome, String cpf, String email, String telefone, String senha) {
         this.id = id;
         this.nome = nome;
         this.cpf = cpf;
@@ -50,7 +50,7 @@ public class Programer implements Serializable {
         this.senha = senha;
     }
 
-    public Programer(Integer id, String nome, String cpf, String email, String telefone) {
+    public Prestador(Integer id, String nome, String cpf, String email, String telefone) {
         this.id = id;
         this.nome = nome;
         this.cpf = cpf;
