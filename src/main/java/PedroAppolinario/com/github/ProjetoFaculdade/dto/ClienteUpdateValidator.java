@@ -15,6 +15,7 @@ import java.util.Map;
 
 public class ClienteUpdateValidator implements ConstraintValidator<ClienteUpdate, ClienteDto> {
 
+
     @Autowired
     private ClienteRepository clienteRepository;
 
@@ -23,33 +24,29 @@ public class ClienteUpdateValidator implements ConstraintValidator<ClienteUpdate
 
     @Override
     public void initialize(ClienteUpdate constraintAnnotation) {
-
     }
 
     @Override
     public boolean isValid(ClienteDto clienteDto, ConstraintValidatorContext constraintValidatorContext) {
+        Map<String, String> map =(Map<String, String>)
+                httpServletRequest.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE);
 
-        Map<String, String> map = (Map<String, String>) httpServletRequest.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE);
         Integer uriId = Integer.parseInt(map.get("id"));
 
         List<FieldMessage> list = new ArrayList<>();
 
         Cliente cliente = clienteRepository.findByEmail(clienteDto.getEmail());
-        if (cliente != null) {
+        if (cliente != null){
             list.add(new FieldMessage("email", "Email ja cadastrado"));
         }
 
-        for (FieldMessage e: list) {
-            constraintValidatorContext.disableDefaultConstraintViolation();
-            constraintValidatorContext.buildConstraintViolationWithTemplate((e.getMessage())).addPropertyNode(e.getFieldName())
+        for (FieldMessage e : list){
+            constraintValidatorContext
+                    .disableDefaultConstraintViolation();
+            constraintValidatorContext.buildConstraintViolationWithTemplate(e.getMessage())
+                    .addPropertyNode(e.getFieldName())
                     .addConstraintViolation();
         }
         return list.isEmpty();
-
     }
-
-
-
-
 }
-

@@ -12,12 +12,10 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface PrestadorUpdate {
 
-
     String message() default "Erro de validação";
 
     Class<?>[] groups() default {};
 
     Class<? extends Payload>[] payload() default {};
-
 
 }

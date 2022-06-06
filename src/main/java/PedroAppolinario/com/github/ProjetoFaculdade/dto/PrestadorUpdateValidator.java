@@ -24,13 +24,13 @@ public class PrestadorUpdateValidator implements ConstraintValidator<PrestadorUp
 
     @Override
     public void initialize(PrestadorUpdate constraintAnnotation) {
-
     }
 
     @Override
     public boolean isValid(PrestadorDto prestadorDto, ConstraintValidatorContext constraintValidatorContext) {
+        Map<String, String> map = (Map<String, String>)
+                httpServletRequest.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE);
 
-        Map<String, String> map = (Map<String, String>) httpServletRequest.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE);
         Integer uriId = Integer.parseInt(map.get("id"));
 
         List<FieldMessage> list = new ArrayList<>();
@@ -41,14 +41,12 @@ public class PrestadorUpdateValidator implements ConstraintValidator<PrestadorUp
         }
 
         for (FieldMessage e : list) {
-            constraintValidatorContext.disableDefaultConstraintViolation();
-            constraintValidatorContext.buildConstraintViolationWithTemplate((e.getMessage())).addPropertyNode(e.getFieldName())
+            constraintValidatorContext
+                    .disableDefaultConstraintViolation();
+            constraintValidatorContext.buildConstraintViolationWithTemplate((e.getMessage()))
+                    .addPropertyNode(e.getFieldName())
                     .addConstraintViolation();
         }
         return list.isEmpty();
-
     }
-
-
 }
-

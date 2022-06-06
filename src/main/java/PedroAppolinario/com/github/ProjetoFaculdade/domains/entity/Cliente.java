@@ -1,9 +1,11 @@
 package PedroAppolinario.com.github.ProjetoFaculdade.domains.entity;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.br.CPF;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
@@ -24,14 +26,13 @@ public class Cliente implements Serializable {
     private Integer id;
 
     @Column(name = "nome", length = 100)
-    @NotEmpty(message = "Campo nome é obrigatório!")
+    @NotEmpty(message = "Campo nome é OBRIGATORIO")
     private String nome;
 
     @Column(name = "cpf")
-    @NotEmpty(message = "Campo CPF é obrigatório!")
-    @CPF(message = "CPF Inválido!")
+    @NotEmpty(message = "Campo cpf é OBRIGATORIO")
+    @CPF(message = "Informe um CPF Válido")
     private String cpf;
-
 
     @Column(unique = true, name = "email")
     private String email;
@@ -46,12 +47,23 @@ public class Cliente implements Serializable {
     @OneToMany
     private List<Servico> servicos;
 
-    public Cliente(Integer id,String nome,String cpf, String email, String telefone) {
+
+    public Cliente(Integer identidade, String nome, String cpf, String email, String telefone) {
+        this.id = identidade;
+        this.nome = nome;
+        this.cpf = cpf;
+        this.email = email;
+        this.telefone = telefone;
+    }
+
+
+    public Cliente(Integer id, String nome, String cpf, String email, String telefone, String senha) {
         this.id = id;
         this.nome = nome;
         this.cpf = cpf;
         this.email = email;
         this.telefone = telefone;
+        this.senha = senha;
     }
 
 
